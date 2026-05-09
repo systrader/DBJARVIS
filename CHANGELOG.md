@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.3.8 (2026-05-09) — AutoMain 업데이트/한글 팝업 수정
+
+### AutoMain / 업데이트
+- 업데이트 적용 직전 실행 중인 `AutoMain.exe`를 종료해 새 배포판의 AutoMain으로 교체되도록 수정
+- 업데이트 전 AutoMain이 실행 중이었다면 업데이트 성공 후 새 `AutoMain.exe`를 자동 재실행
+- 한글 팝업이 `????`로 깨지는 문제를 피하기 위해 Windows Unicode `MessageBoxW` 기반 팝업으로 변경
+
 ## v1.3.7 (2026-05-09) — 업데이트 테스트 릴리스
 
 ### 버전/배포
