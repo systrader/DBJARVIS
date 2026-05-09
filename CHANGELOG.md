@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.3.6 (2026-05-09) — 버전 동기화
+
+### 버전/배포
+- `source/VERSION`, `bin/VERSION`, `install/DBJARVIS/VERSION` 기준 버전을 1.3.6으로 동기화
+- `AutoMain.dproj` 파일/제품 버전을 1.3.6.0으로 갱신
+- 배포 ZIP/SHA256 재생성 기준 버전을 1.3.6으로 갱신
+
 ## v1.3.5 (2026-05-09) — AutoMain 시작 업데이트 확인
 
 ### AutoMain / 업데이트
