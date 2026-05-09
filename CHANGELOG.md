@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.3.11 (2026-05-09) — 설치판 무응답/덮어설치 보강
+
+### 설치판
+- 설치 프로그램 시작/오류 로그를 `%LOCALAPPDATA%\AutoChart\DBJARVIS\logs\setup.log`에 기록하도록 추가
+- 관리자 권한 요청 실패 또는 취소 시 조용히 종료하지 않고 오류 팝업을 표시하도록 수정
+- 덮어설치 전 실행 중인 `AutoMain.exe`, `run_all.exe`, `dbjarvis.exe`, `web_server.exe`, `updater.exe`를 종료해 파일 교체 실패를 줄이도록 수정
+- 로컬 산출물에도 `DBJARVIS_Setup_v버전.exe` 파일을 생성하도록 빌드 스크립트 수정
+
 ## v1.3.10 (2026-05-09) — 다운로드 진행 전 AutoMain 종료
 
 ### 업데이트
