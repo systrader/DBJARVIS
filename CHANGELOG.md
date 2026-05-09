@@ -1,5 +1,112 @@
 # Changelog
 
+## v1.3.5 (2026-05-09) — AutoMain 시작 업데이트 확인
+
+### AutoMain / 업데이트
+- **시작 즉시 업데이트 확인** — `AutoMain.exe` 실행 시 백그라운드에서 `updater.exe --startup-check`를 1회 실행해 최신 GitHub Release를 바로 확인
+- **확인/취소 업데이트 팝업** — 새 버전이 있으면 현재/최신 버전, 다운로드 크기, 기능 추가 요약을 보여주고 확인 시 자동 업데이트 진행
+- **취소 동작 정리** — AutoMain 실행 1회당 업데이트 체크를 한 번만 실행해 취소 후 같은 실행 세션에서는 재팝업하지 않음
+- **AutoMain 캡션 버전 표시** — 창 제목과 상단 제목에 `DB쟈비스 v버전` 표시
+- **updater 자체 업데이트 보강** — 새 패키지의 `updater.exe`를 `updater_new.exe`로 보관하고 현재 updater를 새 폴더에 남겨 다음 실행 때 안전하게 자기 교체
+- **구버전 updater 복구 경로** — 구버전 updater가 적용한 뒤 `updater_new.exe`만 남은 경우 AutoMain이 `updater.exe`로 자동 복구
+
+### 빌드 자산 정합성
+- `source/VERSION` — 1.3.1 → 1.3.5
+- `AutoMain.dproj` — 파일/제품 버전 1.3.5.0 반영
+- `build_all.bat` — 버전 인자가 없으면 `source/VERSION`을 기본값으로 사용
+
+## v1.3.1 (2026-05-05) — 인스톨러 버전 주입 + AI 4 버튼
+
+### 인스톨러
+- **MSI ProductVersion 빌드시 주입** — `modify_ism.py` 가 `--version` 또는 `install/DBJARVIS/VERSION` 으로 ISM 의 ProductVersion 갱신 (이전: 1.0.0 고정)
+- **UpgradeCode 신규 추가** — Major Upgrade 체인 활성화. 이전 버전 자동 제거 후 신규 설치
+- **ProductCode 매 빌드 신규 GUID** — RemoveExistingProducts 트리거
+- **REINSTALLMODE=amus** — 같은 버전 재설치 시 강제 덮어쓰기
+- **gen_sed.py / make_installer.py** — 동일하게 VERSION 파일에서 자동 읽기
+- **build_all.bat** — `python modify_ism.py --version %VERSION%` 호출
+
+### AutoMain / 인스톨러 화면
+- **AI 엔진 4 버튼** — `클로드 설치` / `클로드 인증` / `제미나이 설치` / `제미나이 인증` 분리 (이전: 단일 "설치 / 로그인" 버튼)
+- **claude.cmd 다중 경로 폴백** — `%APPDATA%\npm` / `%ProgramFiles%\nodejs` / `%LOCALAPPDATA%\Programs\nodejs` / `npm config get prefix` 순서 검사. 비표준 npm prefix 환경에서 `claude.CMD ... 내부 또는 외부 명령` 오류 해소
+- **PATH 보강** — 설치 후 같은 프로세스에서 `%APPDATA%\npm` 즉시 인식
+- **Gemini CLI 자동 설치** — `_install_prerequisites` 가 Claude 와 함께 `@google/gemini-cli` 도 설치
+
+### 빌드 자산 정합성
+- `install/DBJARVIS_v1.3.0.zip.sha256` — certutil 한글 헤더 mojibake → 64자 hex 정상화
+- `source/VERSION` — 1.0.0 → 1.3.1 (빌드 산출물과 동기화)
+
+## v1.3.0 (2026-05-03) — (변경 이력 보충 필요 — 보유 ZIP 만 존재)
+
+## v1.2.6 (2026-05-05) — (변경 이력 보충 필요)
+
+## v1.2.5 (2026-05-04) — (변경 이력 보충 필요)
+
+## v1.2.4 (2026-05-04) — (변경 이력 보충 필요)
+
+## v1.2.3 (2026-05-04) — (변경 이력 보충 필요)
+
+## v1.2.1 (2026-05-02) — (변경 이력 보충 필요)
+
+## v1.2.0 (2026-05-02) — (변경 이력 보충 필요)
+
+## v1.1.4 (2026-05-01) — (변경 이력 보충 필요)
+
+## v1.1.3 (2026-05-01) — (변경 이력 보충 필요)
+
+## v1.1.2 (2026-05-01) — (변경 이력 보충 필요)
+
+## v1.1.1 (2026-05-01) — (변경 이력 보충 필요)
+
+## v1.1.0 (2026-05-01) — 슬롯 시스템
+
+### 핵심 변경
+- **L1~L4 4채널 모델 → 슬롯 1개 모델 전환** (deprecated, 1.2.0 삭제 예정)
+- **5축 모델**: 모드(5) × 프로필(5) × 매매방향(4) × 스캐닝(4) = 400 조합
+- **PositionManager 분리** — 슬롯 종료 시 종목을 PositionManager 로 이관, 매수 당시 룰을 *origin_rules* 로 박제
+- **사전 묶음** (한 단어 매핑): 평소 / 회전 / 버티기 / 보수 / 위험회피 / 관망 / AI추천
+- **AI 추천 엔진** (결정론적 규칙 트리, LLM 미사용) — 잔고 + 시장 6국면 분석 → 슬롯 카드 3장
+- **자연어 라우터 확장** — "오늘 어떻게 할까", "500만 5개", "평소대로 가자", "오늘은 사기만"
+- **시퀀스 매매** — "정리하고 다시 잡자" (청산 → 결제 대기 → 매수), 종목 교체, 부분 청산 → 재진입
+- **24시간 NXT 운영** — 7개 세션 + 휴장일 캘린더
+- **SafetyNet** (항상 작동) — 종목 -10% / 일일 -5% / KOSPI 서킷 자동 청산
+
+### 신규 패키지
+- `trader/slot/` — TradingSlot + SlotManager + BasketOrderer + FundDistributor
+- `trader/position/` — Position + PositionManager + ExitEngine (4-lane) + PositionMonitor
+- `trader/direction/` — DirectionController + SafetyNet + TimeLimitedDirection
+- `trader/recommender/` — AccountAnalyzer + MarketRegimeAnalyzer + DecisionTree + UserBiasLearning
+- `trader/modes/` + `trader/profiles/` — YAML 외부화된 5 모드 / 5 프로필 / 7 묶음
+- `trader/calendar/` — Session enum + SessionPolicy + carry-over + holidays_2026
+
+### 신규 플러그인
+- `plugins/slot/` — /슬롯 명령
+- `plugins/position/` — /포지션 명령 + 1분 ExitEngine 모니터
+- `plugins/direction/` — /방향 명령 + 1분 SafetyNet
+- `plugins/ai_recommender/` — /추천 명령
+- `plugins/sequence/` — /시퀀스 명령 + 4 패턴
+
+### 신규 NLU 파서 (intent_router/)
+- _amount_parser, _time_parser, _bundle_alias
+- slot_intent / direction_intent / bundle_intent / recommender_intent / close_intent
+
+### 마이그레이션 스크립트
+- `scripts/migrate_l1_l4.py` (dry-run / execute, atomic write + 백업)
+- `scripts/rollback_migration.py <timestamp>`
+- `scripts/verify_migration.py`
+
+### .env 신규 키
+- `SLOT_DEFAULT_MODE=스윙`, `SLOT_DEFAULT_PROFILE=기본`, `SLOT_AUTO_RESTORE=true`
+- `SLOT_FORCE_CLOSE_TIME=15:20`
+- `SAFETY_DAILY_LOSS_PCT=-5.0`, `SAFETY_EMERGENCY_PCT=-10.0`, `SAFETY_CIRCUIT_PCT=-3.0`
+
+### 알려진 제한
+- AutoMain (Delphi 외부 프로그램) UI 패널은 별도 갱신 필요 — 1.1.0 동안 L1~L5 패널 그대로 노출됨
+- `webapp/settings.html` 슬롯 패널은 1.1.x 후속 패치에서 추가 예정
+- `L1_BUY_START/END`, `L1_BULK_LIQUIDATION_*`, `SCAN_PRIORITY` 키는 1.1.0 부터 무시 (1.2.0 삭제)
+
+### 가이드
+- 마이그레이션 가이드: `error/DBJARVIS_SLOT_MIGRATION_GUIDE.md`
+
 ## v1.0.0 (2026-04-02)
 
 ### 초기 배포

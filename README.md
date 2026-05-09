@@ -1,4 +1,4 @@
-# AutoClaw
+# DBJARVIS
 
 국내주식 자동매매 시스템
 
@@ -13,7 +13,7 @@
 
 ## 설치
 
-1. [Releases](https://github.com/systrader/AUTOCLAW/releases) 에서 최신 ZIP 다운로드
+1. [Releases](https://github.com/systrader/DBJARVIS/releases) 에서 최신 ZIP 다운로드
 2. 압축 해제
 3. `settings_launcher.exe` 실행하여 설정
 4. `run_all.exe` 실행
